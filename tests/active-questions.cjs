@@ -1,0 +1,20 @@
+const assert=require('node:assert/strict');
+const {normalize,buildAnswers}=require('../qqform-prefill.user.js');
+const make=(id,type='SIMPLE',title='年级')=>({id,type,title,dataType:1,qdata:type==='SIMPLE'?{}:{options:[{id:1,title:'2026级'}]}});
+const oldRadio=make('old-radio','RADIO'),oldCheckbox=make('old-check','CHECKBOX');
+const active=make('current-select','SELECT');
+const form={globalPadId:'test',questions:[oldRadio,make('sid','SIMPLE','学号'),make('name','SIMPLE','姓名'),make('class','SIMPLE','班级'),oldCheckbox,active],sections:[{qlist:['current-select','sid','name','class']}]};
+const result=normalize(form);
+assert.deepEqual(result.questions.map(q=>q.id),['current-select','sid','name','class']);
+assert.equal(result.questions.filter(q=>q.title==='年级').length,1);assert.equal(result.questions[0].type,'SELECT');assert.equal(result.ignoredCount,2);
+const answers=buildAnswers(result.questions,{'old-radio':'1','old-check':['1'],'current-select':'1',sid:'111',name:'111',class:'111'});
+assert.equal(answers.length,4);assert(answers.every(a=>!a.id.startsWith('old-')));assert.equal(answers[0].answer_type,10);
+// 合法的同名题不能按标题删除；跨分区的有效题按题目编号和顺序保留。
+const same=normalize({questions:[make('a'),make('b')],sections:[{qlist:['b']},{qlist:['a','b']}]});
+assert.deepEqual(same.questions.map(q=>q.id),['b','a']);assert.equal(same.questions.length,2);
+assert.equal(normalize({questions:[make('a'),make('a')],sections:[{qlist:['a','a']}]}).questions.length,1);
+assert.equal(normalize({questions:[make('a')],sections:[{qlist:[]}]}).questions.length,0);
+assert.deepEqual(normalize({questions:[make(2),make(1)],sections:[{qlist:[1,2]}]}).questions.map(q=>q.id),['1','2']);
+assert.equal(normalize({questions:[make('a')]}).questions.length,1);
+assert.throws(()=>normalize({questions:[make('a')],sections:[{qlist:['missing']}]}),/不一致/);
+console.log('PASS: 6 definitions -> 4 active questions, one grade select, stale answers excluded; same-title valid questions preserved; reference order, duplicate IDs, empty and legacy lists, missing-definition guard.');
