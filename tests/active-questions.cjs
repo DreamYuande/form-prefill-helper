@@ -1,5 +1,5 @@
 const assert=require('node:assert/strict');
-const {normalize,buildAnswers}=require('../qqform-prefill.user.js');
+const {normalize,buildAnswers}=require('../form-prefill-helper.user.js');
 const make=(id,type='SIMPLE',title='年级')=>({id,type,title,dataType:1,qdata:type==='SIMPLE'?{}:{options:[{id:1,title:'2026级'}]}});
 const oldRadio=make('old-radio','RADIO'),oldCheckbox=make('old-check','CHECKBOX');
 const active=make('current-select','SELECT');

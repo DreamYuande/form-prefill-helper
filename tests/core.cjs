@@ -1,5 +1,5 @@
 const assert = require('node:assert/strict');
-const api = require('../qqform-prefill.user.js');
+const api = require('../form-prefill-helper.user.js');
 for(const remaining of [0,1,7,50,100,101,500,1000,1001,5000,5001,60000,60001,180000]) {
  const delay=api.nextDelay(remaining);assert(delay>=0&&delay<=30000&&delay<=remaining);
 }

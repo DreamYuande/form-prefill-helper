@@ -1,6 +1,6 @@
-# 腾讯收集表预填与定时提交
+# 表单预填助手
 
-适用于普通腾讯文档收集表的油猴脚本。支持预填窗口、默认跟随问卷开放时间，以及到点免刷新提交一次。
+适配普通腾讯文档收集表的独立第三方油猴脚本，与平台官方无关联，不代表平台官方。支持预填窗口、默认跟随问卷开放时间，以及到点免刷新提交一次。
 
 ## 功能
 
@@ -13,10 +13,10 @@
 
 ## 安装与使用
 
-[点击安装脚本](https://raw.githubusercontent.com/DreamYuande/tencent-form-prefill/main/qqform-prefill.user.js) · [查看源代码](qqform-prefill.user.js)
+[点击安装脚本](https://raw.githubusercontent.com/DreamYuande/form-prefill-helper/main/form-prefill-helper.user.js) · [查看源代码](form-prefill-helper.user.js)
 
 1. 在浏览器安装 Tampermonkey 等兼容的用户脚本管理器。
-2. 新建脚本，将 `qqform-prefill.user.js` 的完整内容粘贴进去并保存。
+2. 新建脚本，将 `form-prefill-helper.user.js` 的完整内容粘贴进去并保存。
 3. 登录腾讯文档，打开收集表填写页；已经打开的页面需刷新一次。
 4. 在“常规”页预填资料，核对开放时间后启动。
 5. 保持页面打开、电脑不休眠。提交后以服务器返回结果和腾讯收集记录为准。
@@ -48,7 +48,7 @@
 无需第三方依赖，使用 Node.js 运行：
 
 ```text
-node --check qqform-prefill.user.js
+node --check form-prefill-helper.user.js
 node tests/core.cjs
 node tests/active-questions.cjs
 ```
@@ -56,6 +56,10 @@ node tests/active-questions.cjs
 覆盖有效题目过滤、同名题保留、选项校验、北京时间解析、禁止提前提交、单次发送及未知结果处理。界面、日志和定时流程也在离线表单中做过模拟检查；这些检查不代替不同真实表单环境中的验证。
 
 ## 更新
+
+### 1.2.2
+
+使用中性项目名和脚本名，补充第三方、非官方说明；功能与 1.2.1 保持一致。
 
 ### 1.2.1
 

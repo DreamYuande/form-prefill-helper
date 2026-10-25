@@ -1,13 +1,13 @@
 // ==UserScript==
-// @name         腾讯收集表：预填弹窗与免刷新定时提交
+// @name         表单预填助手：预填与定时提交
 // @namespace    local.qqform.prefill
-// @version      1.2.1
-// @description  动态识别普通收集表；按表保存预填；到点同源提交一次，显示服务器结果。
+// @version      1.2.2
+// @description  独立第三方表单工具：识别题目、保存预填、定时提交和日志；与平台官方无关联。
 // @match        https://docs.qq.com/form/*
-// @homepageURL  https://github.com/DreamYuande/tencent-form-prefill
-// @supportURL   https://github.com/DreamYuande/tencent-form-prefill/issues
-// @downloadURL  https://raw.githubusercontent.com/DreamYuande/tencent-form-prefill/main/qqform-prefill.user.js
-// @updateURL    https://raw.githubusercontent.com/DreamYuande/tencent-form-prefill/main/qqform-prefill.user.js
+// @homepageURL  https://github.com/DreamYuande/form-prefill-helper
+// @supportURL   https://github.com/DreamYuande/form-prefill-helper/issues
+// @downloadURL  https://raw.githubusercontent.com/DreamYuande/form-prefill-helper/main/form-prefill-helper.user.js
+// @updateURL    https://raw.githubusercontent.com/DreamYuande/form-prefill-helper/main/form-prefill-helper.user.js
 // @run-at       document-end
 // @grant        GM_getValue
 // @grant        GM_setValue
@@ -147,7 +147,7 @@
     footer{flex:none;padding:8px 12px 9px;border-top:1px solid #eaf0f7;background:#fff}.timer{display:flex;align-items:center;justify-content:space-between;gap:5px;margin-bottom:5px}.timer-label{font-size:9px;color:#8ba0bb;display:flex;align-items:center;gap:4px}.dot{width:4px;height:4px;border-radius:50%;background:#9ab2d1}#count{font-size:14px;line-height:20px;font-weight:600;color:#3d6eb9;white-space:nowrap;font-variant-numeric:tabular-nums}#status{font-size:9px;line-height:14px;color:#92a0b2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:7px}#panel[data-phase=success] #count{color:#258376}#panel[data-phase=unknown] #status,#panel[data-phase=rejected] #status{color:#b0784b}.actions{display:grid;grid-template-columns:1fr auto;gap:7px}.primary{background:#3972d9;color:white;border-color:#3972d9;font-size:11px;font-weight:600}.primary:hover{background:#2f63c2}#stop{font-size:10px;color:#91a0b4}.secondary{display:flex;justify-content:center;gap:18px;margin-top:5px}.secondary button{border:0;padding:1px 3px;font-size:9px;color:#9aa9bc;background:transparent}.footnote{display:none}
     .metrics{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:9px}.metric{padding:7px 8px;background:#f7f9fd;border:1px solid #edf1f7;border-radius:8px;min-width:0}.metric span{display:block;font-size:9px;color:#9aa8ba}.metric b{display:block;font-size:11px;font-weight:500;color:#5d7799;margin-top:2px;white-space:nowrap}.log-tools{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;gap:6px}.log-tools span{font-size:9px;color:#a0adbd}.log-tools button{font-size:9px;padding:4px 7px}#log-list{margin:0;padding:0;list-style:none}.entry{padding:7px 0;border-bottom:1px solid #f0f3f8;display:grid;grid-template-columns:76px 1fr;gap:6px;font-size:10px;color:#718198;line-height:1.55;overflow-wrap:anywhere}.entry time{font:9px/1.7 Consolas,monospace;color:#9baabf}.entry[data-level=error]{color:#b17b4b}.entry[data-level=success]{color:#368976}.empty{font-size:10px;color:#a1aec0;padding:15px 0;text-align:center}.hint{font-size:10px;color:#9ba8b8;line-height:1.7}details{border-top:1px solid #edf1f7;margin-top:12px;padding-top:8px}summary{cursor:pointer;font-size:10px;color:#9aa9bb}details p{margin-top:7px}#clear{font-size:9px;color:#ae8c8c;background:#fffafb;border-color:#f1e6e9;margin-top:8px;padding:4px 6px}
     #open{pointer-events:auto;position:absolute;right:18px;bottom:22px;border:0;border-radius:22px;background:#3972d9;color:#fff;box-shadow:0 4px 18px #3972d938;padding:9px 13px;font-size:11px}@media(max-width:380px){#panel{right:8px;top:12px}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
-  </style><section id="panel" role="dialog" aria-label="报名预填与定时提交" data-phase="idle"><header id="drag" title="按住标题栏拖动位置"><div class="brand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4V3h6v3H9V4M9 11h6M9 15h4"/></svg></div><div class="heading"><h3>报名助手<span class="version">1.2.1</span></h3></div><span class="grip" aria-hidden="true">⠿</span><button id="close" aria-label="收起" title="收起，计时继续">−</button></header>
+  </style><section id="panel" role="dialog" aria-label="报名预填与定时提交" data-phase="idle"><header id="drag" title="按住标题栏拖动位置"><div class="brand" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="5" y="4" width="14" height="17" rx="3"/><path d="M9 4V3h6v3H9V4M9 11h6M9 15h4"/></svg></div><div class="heading"><h3>表单预填助手<span class="version">1.2.2</span></h3></div><span class="grip" aria-hidden="true">⠿</span><button id="close" aria-label="收起" title="收起，计时继续">−</button></header>
     <nav class="tabs" role="tablist" aria-label="面板内容"><button id="tab-normal" role="tab" aria-selected="true" aria-controls="normal-page">常规</button><button id="tab-log" role="tab" aria-selected="false" aria-controls="log-page">日志<span id="log-count">0</span></button></nav>
     <div id="normal-page" class="body" role="tabpanel" aria-labelledby="tab-normal"><p id="summary">正在识别问卷……</p><fieldset id="config"><div class="section-heading"><span id="field-count"></span></div><div id="fields"></div><div class="schedule"><div class="time-card"><label class="follow"><input id="follow" type="checkbox" checked><span>跟随问卷开放时间</span><span>北京时间</span></label><label class="title" for="time">提交时间</label><input id="time" type="datetime-local" step="1"><p id="timehint"></p></div></div></fieldset></div>
     <div id="log-page" class="body" role="tabpanel" aria-labelledby="tab-log" hidden><div class="metrics"><div class="metric"><span>计划提交</span><b id="metric-target">—</b></div><div class="metric"><span>定时触发偏差</span><b id="metric-trigger">—</b></div><div class="metric"><span>请求发起偏差</span><b id="metric-sent">—</b></div><div class="metric"><span>响应耗时</span><b id="metric-network">—</b></div></div><div class="log-tools"><span>仅记录时间和状态</span><button id="copy-log">复制日志</button></div><ul id="log-list" aria-live="polite"></ul><details><summary>说明与本地记录</summary><p class="hint">按住标题栏拖动，收起后计时继续。默认跟随开放时间，手动修改可自定义。刷新或离开会取消定时，预填保留。</p><p class="hint">后台计时节流、系统时钟、网络及服务器处理均可能影响后台记录时间。日志中的偏差按本机时钟计算，不代表服务器入库耗时；复制日志可帮助定位。</p><p class="hint">仅适配普通收集表的常见题型，附件、签名、考试、名单和跳题等特殊流程暂不支持。验证码需自行处理。</p><button id="clear">清除本表预填及提交记录</button></details></div>
@@ -423,7 +423,7 @@
   });
   $('#copy-log').onclick = () => {
     const t = state.timing || {};
-    const summary = `报名助手 1.2.1\n计划：${clock(state.target)}\n触发：${clock(t.triggerAt)}\n发出：${clock(t.requestAt)}\n响应：${clock(t.responseAt)}\n往返：${t.duration ?? '—'} ms\n状态：${state.phase || 'idle'}`;
+    const summary = `表单预填助手 1.2.2\n计划：${clock(state.target)}\n触发：${clock(t.triggerAt)}\n发出：${clock(t.requestAt)}\n响应：${clock(t.responseAt)}\n往返：${t.duration ?? '—'} ms\n状态：${state.phase || 'idle'}`;
     GM_setClipboard(summary + '\n\n' + logs.map(e => `${clock(e.at)} ${e.message}`).join('\n'), 'text');
     $('#copy-log').textContent = '已复制'; setTimeout(() => { $('#copy-log').textContent = '复制日志'; }, 1500);
   };
